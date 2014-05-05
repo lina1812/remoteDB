@@ -1,0 +1,95 @@
+$base-background-color: #f5f6f7;
+$base-font-color: #333;
+$base-fonts: "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;
+ 
+$title-link-color: #44c;
+$control-blue-color: #339;
+ 
+$content-shadow-color: #ccc;
+$content-border-size: 4px;
+$content-border-color: #fff;
+ 
+@mixin content_block($width, $mg-size: 20px, $pd-size: 20px){
+  width: $width - ($content-border-size + $pd-size)* 2;
+  background: #fff;
+  background-color: #fcfcfc;
+ 
+  margin:{
+    top: 0;
+    left: 0;
+    right: $mg-size;
+    bottom: $mg-size;
+  }
+ 
+  padding: $pd-size $pd-size $pd-size * 2;
+ 
+  border-radius: 4px;
+  float: left;
+  border: 3px solid $content-border-color;
+  box-shadow: 0 0 3px $content-shadow-color;
+}
+ 
+body {
+  background: $base-background-color;
+  font: 12px/18px $base-fonts;
+  color: $base-font-color;
+}
+ 
+#wrapper {
+  width: 1000px;
+  margin: 20px auto;
+}
+ 
+#header {
+  margin: 0 0 20px;
+  overflow: hidden;
+ 
+  h1{
+    margin: 10px 0 0;
+    font-size: 1.7em;
+    float: left;
+    width: 300px;
+  }
+}
+ 
+#menu{
+  float: left;
+  background: $control-blue-color;
+  padding: 7px 10px;
+  margin: 5px;
+  border-radius: 4px;
+ 
+  &>a{
+    color:#fff;
+    float:left;
+    padding:10px;
+    margin:-7px 0;
+ 
+    &:hover{
+      color:#00BFFF;
+      background:$control-blue-color / 1.5;
+    }
+  }
+}
+ 
+#content {
+  @include content-block(730px);
+}
+ 
+#right-bar {
+  @include content-block(250px, 0);
+}
+ 
+.post {
+  margin:0 0 40px;
+ 
+  &>h1>a{
+    font-size:1.7em;
+    color:#44c;
+  }
+ 
+  .datetime{
+    font-size:.75em;
+    color:#bbb;
+  }
+}

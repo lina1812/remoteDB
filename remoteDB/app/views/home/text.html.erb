@@ -1,0 +1,61 @@
+
+
+<head>
+<%= render "header" %>
+<style>
+.table_r{
+    background: #EEE9E9; 
+    color: #9400D3; 
+    margin: 20px;
+	padding-left: 15px; 
+	padding-right: 10px; 
+	padding-top: 5px; 
+	padding-bottom: 0;
+   }
+  </style>
+
+</head>
+<body id='type-c'>
+<%= render "logo" %>
+
+
+<table >
+
+<td class="table_r">
+<%= form_for :wysiwyg do |f| %>
+<%= @title%>
+<%if (@message) then%>
+<pre>
+<%= @message%>
+</pre>
+<% end%> 
+<br>
+
+<link rel="stylesheet" href="scripts/wysiwyg/jquery.wysiwyg.css" type="text/css"/>
+<script type="text/javascript" src="scripts/wysiwyg/lib/jquery.js"></script>
+<script type="text/javascript" src="scripts/wysiwyg/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="scripts/wysiwyg/wysiwyg.image.js"></script>
+<script type="text/javascript" src="scripts/wysiwyg/wysiwyg.link.js"></script>
+<script type="text/javascript" src="scripts/wysiwyg/wysiwyg.table.js"></script>
+<script type="text/javascript">
+(function($) {
+	$(document).ready(function() {
+		$('#wysiwyg').wysiwyg('');
+	});
+	
+})(jQuery);
+</script>
+<div class="container">
+	
+<textarea id="wysiwyg" rows="5" cols="80" name="wysiwyg[text]"></textarea>
+<%=hidden_field_tag('sended')%>
+<br>
+Пароль:
+<%=f.password_field :password%>
+<br>
+<p>
+	<%= f.button("Send") %>
+</p>
+<% end %>
+</td>
+</table>

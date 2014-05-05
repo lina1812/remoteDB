@@ -1,0 +1,33 @@
+<head>
+<%= render "header" %>
+</head>
+<body id='type-c'>
+<%= render "logo" %>
+<!--<h1>Home#user_control_no_db</h1>-->
+
+<%= form_for :text do |f| %>
+Введите имена пользователей в формате "имя <1>", 1 если преподаватель<br>
+<%=f.text_area( :text, cols: 50, rows: 10)%>
+<%=hidden_field(:is_commit,:ok)%>
+<p>
+	<%= f.button("Send")%>
+</p>
+
+<% end %>
+
+<%= form_for :text do |f| %>
+
+<br> 
+
+<script src="/scripts/addInput.js" language="Javascript" type="text/javascript"></script>
+     <div id="dynamicInput">
+     Или так
+     </div>
+     <input type="button" value="Добавить еще пользователя" onClick="addInput('dynamicInput');">
+
+<%=hidden_field(:is_commit,:ok)%>
+<p>
+	<%= f.button("Send")%>
+</p>
+
+<% end %>

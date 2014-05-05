@@ -1,0 +1,58 @@
+<head>
+<%= render "header" %>
+
+<SCRIPT SRC="scripts/mktree.js" LANGUAGE="JavaScript"></SCRIPT>
+
+
+</head>
+<body id='type-c'>
+<%= render "logo" %>
+
+<%= form_for :text do |f| %>
+<%=@a%>
+<br>
+<%=@users.inspect%>
+<TABLE>
+	
+	<tr>
+		<td valign="top">
+			<%@data_bases.map do |i|%>
+				<%= check_box('database', i,{}, 1, "0")%>
+				<%= i%><br>
+			<%end%>
+		</td>
+		<td valign="top">
+		<UL CLASS="mktree" ID="tree1">
+		<%q=1%>
+			<% @users.each do |k,v|%>
+				<div>
+				<%= check_box('group', k,{}, 1, "0")%>
+				<span class="navHeader" id="navHeader1" onClick="shiftSubDiv(<%=q%>)">
+					
+					<%= k.to_s%>
+					
+				</span>
+				</div>
+				<ul id="subDiv<%=q%>" style="display:none">
+					<%v.each do |i|%>
+						<LI> 
+						<%= check_box('user', i,{}, 1, "0")%>
+						<%=i.to_s%>
+						</li>
+				
+					<%end%>
+				</UL>
+				<%q+=1%>
+			<%end%>
+				
+		</ul>
+		</td>
+	</tr>
+</TABLE>
+
+
+ <p>
+	<%= f.button("Send")%>
+</p>
+
+<% end %>

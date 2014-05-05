@@ -1,0 +1,44 @@
+<style>
+.td1{
+    padding-left: 5px; 
+	padding-right: 10px; 
+   }
+  </style>
+  
+  
+  
+ 
+  
+<table class='table1' >
+<tr>
+
+<td class='td1'>
+<% if user_signed_in? %>
+			<span>Здравствуйте, <%= current_user.email %></span>
+			<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+	<% else %>
+	<%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+			<% end %>
+<!--</table>-->
+</td>
+<!--<table class='table2' frame='void' cellpadding='100' >
+<td >-->
+
+<% if current_user.u_type=="0"%>
+<!--<ul>-->
+        <td><a href="/user_control" class="btn btn-danger btn-lg" role="button">Управление пользователями базы данных</a></td>
+        <td><a href="/user_control_no_db" class="btn btn-danger btn-lg" role="button">Управление пользователями</a></td>
+        <td><a href="/text" class="btn btn-danger btn-lg" role="button">Обращение к базе </a></td>
+	<td><a href="/shell" class="btn btn-danger btn-lg" role="button">Shell </a></td>
+
+<%else %>
+ <td><a href="/text" class="btn btn-danger btn-lg" role="button"> Обращение к базе </a></td>
+ <td><a href="/shell" class="btn btn-danger btn-lg" role="button"> Shell </a></td>
+
+<%end%>
+
+<!--</td>-->
+</tr>
+</table>
+
+

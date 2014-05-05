@@ -1,0 +1,66 @@
+<head>
+<%= render "header" %>
+</head>
+<body id='type-c'>
+<%= render "logo" %>
+<h1>Home#user_control</h1>
+<%=@a%>
+<table>
+<tr>
+<td valign="top">
+
+<%= form_for :text do |f| %>
+Введите имена пользователей в формате "имя <1>", 1 если преподаватель<br>
+<%=f.text_area( :text, cols: 50, rows: 10)%>
+
+<br>
+<p>
+	<%= f.button("Send",{:class=>"btn btn-success"})%>
+</p>
+
+<% end %>
+
+<%= form_for :add do |f| %>
+
+<br> 
+
+<script src="/scripts/addInput.js" language="Javascript" type="text/javascript"></script>
+     <div id="dynamicInput">
+     Или так
+     </div>
+     <input type="button" value="Добавить еще пользователя" onClick="addInput('dynamicInput');" class="btn btn-default">
+<br>
+
+<p>
+	<%= f.button("Add",{:class=>"btn btn-success"})%>
+</p>
+
+<% end %>
+</td>
+<td valign="top">
+<%result=OtherDb.connection.select_all("SELECT * FROM pg_shadow;")#.inspect%>
+	<%= "\n"+result.columns.inspect+"\n"%>
+	<br>
+	<%result.rows.each do|m| %>
+	<%=m.inspect%>
+	<br>
+	<%end%>
+	<br>
+<%= form_for :del do |f| %>
+
+
+<br> 
+<% @u.each do |i| %>
+<%= check_box( :users,  i.email.to_s,{} , 1) %>
+<%= i.email.to_s %>
+<br>
+<%end%>
+
+<br>
+<p>
+	<%= f.button("Delete",{:class=>"btn btn-danger"})%>
+</p>
+
+<% end %>
+</td>
+</tr>
