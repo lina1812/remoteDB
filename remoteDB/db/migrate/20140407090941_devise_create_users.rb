@@ -3,9 +3,16 @@ class DeviseCreateUsers < ActiveRecord::Migration
     create_table(:users) do |t|
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
-      t.string :u_type ,             :null => false, :default =>"1"
+      t.string :is_student ,             :null => false, :default =>"1"
+      t.string :is_teacher ,             :null => false, :default =>"0"
+      t.string :is_admin ,             :null => false, :default =>"0"
       t.string :encrypted_password, :null => false, :default => ""
       t.integer :group,		:null=>false, :default =>0
+      t.string :name, 			:nill=>false, :default =>""
+      t.string :surname, 			:nill=>false, :default =>""
+      t.string :last_name, 			:nill=>false, :default =>""
+      
+      
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -37,7 +44,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
     add_index :users, :email,                :unique => true
     add_index :users, :reset_password_token, :unique => true
-    add_index :users, :u_type
+
 
     # add_index :users, :confirmation_token,   :unique => true
     # add_index :users, :unlock_token,         :unique => true

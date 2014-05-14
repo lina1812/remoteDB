@@ -13,13 +13,15 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
-	    <% if current_user.u_type=="0"%>
+	    <% if current_user.is_teacher=="1"%>
             <li <%=controller.action_name=='user_control'?'class="active"':'' %> > <a href="/user_control">Управление пользователями</a></li>
             <li <%=controller.action_name=='bd_control'?'class="active"':'' %> > <a href="/bd_control">Управление базами данных</a></li>
          
         <% end%>
 	<li <%=controller.action_name=='text'?'class="active"':'' %> ><a href="/text" >Обращение к базе </a></td>
 	<li <%=controller.action_name=='shell'?'class="active"':'' %> ><a href="/shell">Shell </a></li>
+	<li <%=controller.action_name=='a_search'?'class="active"':'' %> ><a href="/a_search">Поиск </a></li>
+	
             <li class="dropdown">
 	   
 	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">

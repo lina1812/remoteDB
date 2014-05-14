@@ -21,7 +21,6 @@ class HomeController < ApplicationController
 					u.email=i.split(' ')[0]
 					u.encrypted_password='000'
 					u.group='1111'
-					u.u_type=(i.split(' ')[1].to_i-1).to_s
 					#@a+="<br>"+u.inspect
 					u.save
 				end
@@ -33,7 +32,6 @@ class HomeController < ApplicationController
 					u.email=params['names'][i]
 					u.encrypted_password='000'
 					u.group='1111'
-					u.u_type=params['users'][i.to_s]
 					#@a+="<br>"+u.inspect
 					u.save
 				end
@@ -87,7 +85,6 @@ class HomeController < ApplicationController
 				u=User.new
 				u.email=params['names'][i]
 				u.encrypted_password='000'
-				u.u_type=params['users'][i.to_s]
 				#@a+="<br>"+u.inspect
 				u.save
 				result=OtherDb.connection.select_all("CREATE USER " +params['names'][i]+" WITH encrypted PASSWORD 'qwerty';")#.inspect
@@ -104,7 +101,6 @@ class HomeController < ApplicationController
 					u=User.new
 					u.email=i.split(' ')[0]
 					u.encrypted_password='000'
-					u.u_type=(i.split(' ')[1].to_i-1).to_s
 					#@a+="<br>"+u.inspect
 					u.save
 					result=OtherDb.connection.select_all("CREATE USER " +i.split(' ')[0]+" WITH encrypted PASSWORD 'qwerty';")#.inspect
@@ -182,7 +178,69 @@ class HomeController < ApplicationController
 				end
 
 			
-  end
+	end
+	def a_search
+		@a=params
+		@login=[]
+		if !params["search"].nil? then
+			
+		
+			OtherDb.establish_connection(
+				{ :adapter => 'postgresql',
+					:database => 'test',
+					:host => 'localhost',
+					:username => 'test',
+					:password => "0000" ,
+					:port => "5436"}
+					)
+			if !params["search"]["is_student"].nil? then
+				u=User.find_by(email: params['search']['email'])
+				u.is_student=params["search"]["is_student"]
+				u.is_teacher=params["search"]["is_teacher"]
+				u.is_admin=params["search"]["is_admin"]
+				u.save
+			end
+			if !params["search"]["encrypted_password"].nil? then
+				if params['search']["encrypted_password"]!="" then
+				#u=User.email
+				#@a=""
+					result=OtherDb.connection.select_all("ALTER USER " +params['search']['email']+" WITH encrypted PASSWORD '" +params['search']['encrypted_password']+"';")#.inspect
+					#@a+="\n"+result.columns.inspect+"\n"
+					#result.rows.each {|m| @a+=m.inspect+"\n"}
+				end
+			end
+			if !params["search"]["delete"].nil? then
+				#u=User.email
+					#@a=""
+					
+					
+				u=User.find_by(email: params['search']['email'])
+				if !u.nil? 
+					u.destroy
+					result=OtherDb.connection.select_all("DROP USER " +params['search']['email']+";")#.inspect
+					#@a+="\n"+result.columns.inspect+"\n"
+					#result.rows.each {|m| @a+=m.inspect+"\n"}
+				end
+			end
+			
+			User.find_each do |u|
+				if (params["search"]["login"]!=''?(!u.email[params["search"]["login"]].nil?):true &&
+					params["search"]["name"]!=''?(!u.name[params["search"]["name"]].nil?):true &&
+					params["search"]["surname"]!=''?(!u.surname[params["search"]["surname"]].nil?):true &&
+					params["search"]["last_name"]!=''?(!u.last_name[params["search"]["last_name"]].nil?):true
+					
+					)
+					@login<<u
+				end
+			end
+		end
+	end
+
+
+
+
+
+
 end
 
 

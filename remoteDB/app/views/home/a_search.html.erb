@@ -1,0 +1,146 @@
+<head>
+<%= render "header" %>
+  <style>
+  td{
+	margin:10px
+	padding-left: 5px; 
+	padding-right: 10px; 
+   }
+  </style>
+</head>
+<body id='type-c'>
+	<%= render "logo" %>
+	<br>
+	<%=@a.inspect%>
+	
+	<br>
+	<h1>Поиск пользователя</h1>
+	<%if !params["search"].nil?%>
+		Вы искали
+		<br>
+		<%if params["search"]["login"]!='' then%>
+			Login = 
+			<%=params["search"]["login"]%>
+			<br>
+		<%end%>
+		<%if params["search"]["name"]!='' then%>
+			Имя = 
+			<%=params["search"]["name"]%>
+			<br>
+		<%end%>
+		<%if params["search"]["surname"]!='' then%>
+			Фамилия = 
+			<%=params["search"]["surname"]%>
+			<br>
+		<%end%>
+		<%if params["search"]["last_name"]!='' then%>
+			Отчество = 
+			<%=params["search"]["last_name"]%>
+			<br>
+		<%end%>
+		<br>
+		<%if @login==[]%>
+		ничего не найдено
+		<%else%>
+		<table>
+			<tr>
+				<td>
+					Login
+				</td>
+				<td>
+					Имя
+				</td>
+				<td>
+					Фамилия
+				</td>
+				<td>
+					Отчество
+				</td>
+				<td>
+					Доступ
+				</td>
+				<td>
+					Пароль
+				</td>
+			</tr>
+				<% @login.each do |u|%>
+				<tr>
+					<td>
+					<%=u.email%>
+					</td>
+					<td>
+					<%=u.name%>
+					</td>
+					<td>
+					<%=u.surname%>
+					</td>
+					<td>
+					<%=u.last_name%>
+					</td>
+					<td>
+					<%= form_for :search do |f| %>
+					<input type="hidden" id="email" name="search[email]" value="<%=u.email%>" />
+					<input type="hidden" id="login" name="search[login]" value="<%=params["search"]["login"]%>" />
+					<input type="hidden" id="name" name="search[name]" value="<%=params["search"]["name"]%>" />
+					<input type="hidden" id="surname" name="search[surname]" value="<%=params["search"]["surname"]%>" />
+					<input type="hidden" id="last_name" name="search[last_name]" value="<%=params["search"]["last_name"]%>" />
+					
+					<%= check_box('search', 'is_student',{}, 1, "0")%> Студент
+					<br><%= check_box('search', 'is_teacher',{}, 1, "0")%> Преподаватель
+					<br><%= check_box('search', 'is_admin',{}, 1, "0")%> Администратор
+					<br><%=f.button("Изменить")%>
+					<%end%>
+					</td>
+					<td>
+					<%= form_for :search do |f| %>
+					<%=f.text_field(:encrypted_password)%>
+					<input type="hidden" id="email" name="search[email]" value="<%=u.email%>" />
+					<input type="hidden" id="login" name="search[login]" value="<%=params["search"]["login"]%>" />
+					<input type="hidden" id="name" name="search[name]" value="<%=params["search"]["name"]%>" />
+					<input type="hidden" id="surname" name="search[surname]" value="<%=params["search"]["surname"]%>" />
+					<input type="hidden" id="last_name" name="search[last_name]" value="<%=params["search"]["last_name"]%>" />
+					
+					<%=f.button("Изменить пароль")%>
+					<%end%>
+
+					<%= form_for :search do |f| %>
+					<input type="hidden" id="email" name="search[email]" value="<%=u.email%>" />
+					<input type="hidden" id="login" name="search[login]" value="<%=params["search"]["login"]%>" />
+					<input type="hidden" id="name" name="search[name]" value="<%=params["search"]["name"]%>" />
+					<input type="hidden" id="surname" name="search[surname]" value="<%=params["search"]["surname"]%>" />
+					<input type="hidden" id="last_name" name="search[last_name]" value="<%=params["search"]["last_name"]%>" />
+					<%=f.hidden_field(:delete)%>
+					<%=f.button("Удалить")%>
+					
+					<%end%>
+					
+					</td>
+					
+				</tr>
+				<%end%>
+		
+		</table>
+		<%end%>
+	<%end%>
+	<br>
+	<table>
+	
+			<%= form_for :search do |f| %>
+			<td>Логин </td><td><%=f.text_field(:login)%></td>
+			</tr>
+			<tr>
+			<td><br>Фамилия</td><td><br><%=f.text_field(:surname)%></td>
+			</tr>
+			<tr>
+			<td><br>Имя</td><td><br><%=f.text_field(:name)%></td>
+			</tr>
+			<tr>
+			<td><br>Отчество</td><td><br><%=f.text_field(:last_name)%></td>
+			</tr>
+			<tr><td><br><%=f.button("Поиск")%></td></tr>
+	
+	<%end%>
+	</table>
+	
+	
+</body>

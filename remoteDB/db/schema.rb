@@ -27,9 +27,14 @@ ActiveRecord::Schema.define(version: 20140407092008) do
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",  null: false
-    t.string   "u_type",                 default: "1", null: false
+    t.string   "is_student",             default: "1", null: false
+    t.string   "is_teacher",             default: "0", null: false
+    t.string   "is_admin",               default: "0", null: false
     t.string   "encrypted_password",     default: "",  null: false
     t.integer  "group",                  default: 0,   null: false
+    t.string   "name",                   default: ""
+    t.string   "surname",                default: ""
+    t.string   "last_name",              default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -44,6 +49,5 @@ ActiveRecord::Schema.define(version: 20140407092008) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["u_type"], name: "index_users_on_u_type"
 
 end
