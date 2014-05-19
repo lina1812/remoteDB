@@ -1,0 +1,25 @@
+<head>
+<%= render "header" %>
+  <style>
+  td{
+	margin:10px
+	padding-left: 5px; 
+	padding-right: 10px; 
+   }
+  </style>
+</head>
+<body id='type-c'>
+	<%= render "logo" %>
+	<br>
+	<%=@a.inspect%>
+	
+	<br>
+	<h1>Регистрация пользователей</h1>
+	<h4><%=@message%></h4>
+	<%= form_tag(:name => :regist) do %>
+	Введите имена пользователей в формате "Фамилия Имя Отчество Логин Доступ_преподавателя Доступ_администратора Пароль", 1 если есть доступ, 0 если нет<br>
+	<%=text_area( :regist, :text, size: "80x15")%>
+	<%=hidden_field_tag(:is_commit,:ok)%>
+	<br><%=submit_tag("Зарегистрировать")%>
+<%end%>
+</body>

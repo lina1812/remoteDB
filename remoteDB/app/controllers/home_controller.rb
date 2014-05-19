@@ -182,6 +182,8 @@ class HomeController < ApplicationController
 	def a_search
 		@a=params
 		@login=[]
+		@text=params['search']
+		@text={} if @text.nil?
 		if !params["search"].nil? then
 			
 		
@@ -194,10 +196,10 @@ class HomeController < ApplicationController
 					:port => "5436"}
 					)
 			if !params["search"]["is_student"].nil? then
-				u=User.find_by(email: params['search']['email'])
-				u.is_student=params["search"]["is_student"]
-				u.is_teacher=params["search"]["is_teacher"]
-				u.is_admin=params["search"]["is_admin"]
+				u=User.find_by(email: params['search']['email']) 
+				u.is_student=params["search"]["is_student"] if  !params["search"]["is_student"] .nil?
+				u.is_teacher=params["search"]["is_teacher"] if !params["search"]["is_teacher"].nil?
+				u.is_admin=params["search"]["is_admin"] if !params["search"]["is_admin"].nil?
 				u.save
 			end
 			if !params["search"]["encrypted_password"].nil? then
@@ -237,10 +239,143 @@ class HomeController < ApplicationController
 	end
 
 
+	def a_regist
+		@text=params['regist']
+		@text={} if @text.nil?
+		login=''
+		@a=params
+		if !params["regist"].nil? then
+			
+			if params['regist']['login']!="" then
+			
+				login=params['regist']['login']
+			else
+				s=params['regist']['surname'][0]
+				n=params['regist']['name'][0]
+				l=params['regist']['last_name'][0]
+				
+				login=to_t(s)+to_t(n)+to_t(l)
+				m=''
+				User.all.each do |i|
+					m=i.email if (!i.email[login].nil? && m<i.email)
+				end
+				login+=(m.gsub(/[a-z]/,' ').split[-1].to_i+1).to_s
+				#@message=login
+			end
+			
+			if User.find_by(email: login).nil? then
+					u=User.new
+					u.email=login
+					u.surname=params['regist']['surname']
+					u.name=params['regist']['name']
+					u.last_name=params['regist']['last_name']
+					u.encrypted_password=params['regist']['encrypted_password']
+					u.is_teacher=params['regist']['is_teacher'] if !params['regist']['is_teacher'].nil? 
+					u.is_admin=params['regist']['is_admin'] if !params['regist']['is_admin'].nil? 
+					u.save
+					
+					OtherDb.establish_connection(
+					{ :adapter => 'postgresql',
+						:database => 'test',
+						:host => 'localhost',
+						:username => 'test',
+						:password => "0000" ,
+						:port => "5436"}
+						)
+					result=OtherDb.connection.select_all("CREATE USER " +login+" WITH encrypted PASSWORD '"+params['regist']['encrypted_password']+"';")#.inspect
+					@message= "Успешно зарегистрирован "+ (u.is_teacher=="1" ? u.is_admin=="1" ? "преподаватель и администратор " :"преподаватель ": u.is_admin=="1" ? "администратор " : "") + login +u.inspect
+				else 
+					@message=User.find_by(email: login).email # "Такой логин уже существует"
+				end
+		end
+		
+			
+	end
 
 
-
-
+	def to_t(c)
+		translit={
+		'Ц'=>'c',
+		'У'=>'u',
+		'К'=>'k',
+		'Е'=>'e',
+		'Н'=>'n',
+		'Г'=>'g',
+		'З'=>'z',
+		'Х'=>'h',
+		'Ш'=>'s',
+		'Щ'=>'c',
+		'Ф'=>'f',
+		'В'=>'v',
+		'А'=>'a',
+		'П'=>'p',
+		'Р'=>'r',
+		'О'=>'o',
+		'Л'=>'l',
+		'Д'=>'d',
+		'Ж'=>'z',
+		'Э'=>'e',
+		'Я'=>'y',
+		'Ч'=>'c',
+		'С'=>'s',
+		'М'=>'m',
+		'И'=>'i',
+		'Т'=>'t',
+		'Б'=>'b',
+		'Ю'=>'y'
+		}
+		return translit[c].nil?? '':translit[c]
+	end
+	
+  def a_mn_regist
+	@a=params.inspect
+	if !params['is_commit'].nil?
+		if !params['regist'].nil?
+			t=params['regist']['text'].split("\r\n")
+			@a=''#t.inspect
+			t.each do |i|
+				
+				j=i.split
+				
+					if j.size==7 
+						if User.find_by(email: j[3]).nil? then
+							u=User.new
+							u.email=j[3]
+							u.surname=j[0]
+							u.name=j[1]
+							u.last_name=j[2]
+							u.is_teacher=j[4]
+							u.is_admin=j[5]
+							u.encrypted_password=j[6]
+							@a=u.inspect
+							u.save
+							
+							OtherDb.establish_connection(
+							{ :adapter => 'postgresql',
+								:database => 'test',
+								:host => 'localhost',
+								:username => 'test',
+								:password => "0000" ,
+								:port => "5436"}
+								)
+							result=OtherDb.connection.select_all("CREATE USER " + j[3]+" WITH encrypted PASSWORD '"+j[6]+"';")#.inspect
+							@message="Успешно"
+						else
+							result=OtherDb.connection.select_all("ALTER USER " +j[3]+" WITH encrypted PASSWORD '" +j[6]+"';")#.inspect
+					
+						end
+					else 
+						@message="Некорректный ввод данных"
+	#				if i!="" then
+	#					a.email=i.split(' ')
+	#				end
+	#				r.inspect
+					end
+				
+			end
+		end
+	end
+  end
 end
 
 

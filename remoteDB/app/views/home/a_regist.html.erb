@@ -1,0 +1,48 @@
+<head>
+<%= render "header" %>
+  <style>
+  td{
+	margin:10px
+	padding-left: 5px; 
+	padding-right: 10px; 
+   }
+  </style>
+</head>
+<body id='type-c'>
+	<%= render "logo" %>
+	<br>
+	<%=@a.inspect%>
+	
+	<br>
+	<h1>Регистрация пользователя</h1>
+	<h4><%=@message%></h4>
+	<%= form_tag(:name => :regist) do %>
+	
+	<table>
+	
+			
+			<tr>
+			<td><br>Фамилия</td><td><br><%=text_field_tag('regist[surname]')%></td>
+			</tr>
+			<tr>
+			<td><br>Имя</td><td><br><%=text_field_tag('regist[name]')%></td>
+			</tr>
+			<tr>
+			<td><br>Отчество</td><td><br><%=text_field_tag('regist[last_name]')%></td>
+			</tr>
+			<tr>
+			<td><br>Доступ</td><td><br><%= check_box_tag('regist[is_teacher]', 1, false, {})%> Преподаватель
+					<%= check_box_tag('regist[is_admin]', 1, false, {})%> Администратор</td>
+			</tr>
+			<tr>
+			<td><br>Пароль</td><td><%=text_field_tag('regist[encrypted_password]')%></td>
+			</tr>		
+			<tr>
+			<td><br>Логин </td><td><%=text_field_tag('regist[login]')%></td>
+			</tr>
+			<tr><td><br><%=submit_tag("Зарегистрировать")%></td></tr>
+	
+	</table>
+	<%end%>
+	
+</body>

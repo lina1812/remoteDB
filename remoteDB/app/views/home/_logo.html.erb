@@ -21,6 +21,8 @@
 	<li <%=controller.action_name=='text'?'class="active"':'' %> ><a href="/text" >Обращение к базе </a></td>
 	<li <%=controller.action_name=='shell'?'class="active"':'' %> ><a href="/shell">Shell </a></li>
 	<li <%=controller.action_name=='a_search'?'class="active"':'' %> ><a href="/a_search">Поиск </a></li>
+	<li <%=controller.action_name=='a_regist'?'class="active"':'' %> ><a href="/a_search">Единичная регистрация </a></li>
+	<li <%=controller.action_name=='a_mn_regist'?'class="active"':'' %> ><a href="/a_search">Множественная регистрация </a></li>
 	
             <li class="dropdown">
 	   
@@ -33,10 +35,6 @@
 		<li><%= link_to 'Зарегистрироваться', new_user_registration_path %></li>
 	
               
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
               </ul>
             </li>
           </ul>

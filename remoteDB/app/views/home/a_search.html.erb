@@ -15,29 +15,26 @@
 	
 	<br>
 	<h1>Поиск пользователя</h1>
+	<%= form_tag(:name => :search) do %>
+	<table>
+	
+			<td>Логин </td><td><%=text_field_tag('search[login]', @text["login"])%></td>
+			</tr>
+			<tr>
+			<td><br>Фамилия</td><td><br><%=text_field_tag('search[surname]', @text["surname"])%></td>
+			</tr>
+			<tr>
+			<td><br>Имя</td><td><br><%=text_field_tag('search[name]', @text["name"])%></td>
+			</tr>
+			<tr>
+			<td><br>Отчество</td><td><br><%=text_field_tag('search[last_name]', @text["last_name"])%></td>
+			</tr>
+			<tr><td><br><%=submit_tag("Поиск")%></td></tr>
+	
+	</table>
+	<%end%>
+	<br>
 	<%if !params["search"].nil?%>
-		Вы искали
-		<br>
-		<%if params["search"]["login"]!='' then%>
-			Login = 
-			<%=params["search"]["login"]%>
-			<br>
-		<%end%>
-		<%if params["search"]["name"]!='' then%>
-			Имя = 
-			<%=params["search"]["name"]%>
-			<br>
-		<%end%>
-		<%if params["search"]["surname"]!='' then%>
-			Фамилия = 
-			<%=params["search"]["surname"]%>
-			<br>
-		<%end%>
-		<%if params["search"]["last_name"]!='' then%>
-			Отчество = 
-			<%=params["search"]["last_name"]%>
-			<br>
-		<%end%>
 		<br>
 		<%if @login==[]%>
 		ничего не найдено
@@ -84,10 +81,9 @@
 					<input type="hidden" id="name" name="search[name]" value="<%=params["search"]["name"]%>" />
 					<input type="hidden" id="surname" name="search[surname]" value="<%=params["search"]["surname"]%>" />
 					<input type="hidden" id="last_name" name="search[last_name]" value="<%=params["search"]["last_name"]%>" />
-					
-					<%= check_box('search', 'is_student',{}, 1, "0")%> Студент
-					<br><%= check_box('search', 'is_teacher',{}, 1, "0")%> Преподаватель
-					<br><%= check_box('search', 'is_admin',{}, 1, "0")%> Администратор
+					<%= check_box_tag('search[is_student]', 1, (u.is_student.to_i == 1), {})%> Студент
+					<br><%= check_box_tag('search[is_teacher]', 1, (u.is_teacher.to_i == 1), {})%> Преподаватель
+					<br><%= check_box_tag('search[is_admin]', 1, (u.is_admin.to_i == 1), {})%> Администратор
 					<br><%=f.button("Изменить")%>
 					<%end%>
 					</td>
@@ -122,25 +118,6 @@
 		</table>
 		<%end%>
 	<%end%>
-	<br>
-	<table>
-	
-			<%= form_for :search do |f| %>
-			<td>Логин </td><td><%=f.text_field(:login)%></td>
-			</tr>
-			<tr>
-			<td><br>Фамилия</td><td><br><%=f.text_field(:surname)%></td>
-			</tr>
-			<tr>
-			<td><br>Имя</td><td><br><%=f.text_field(:name)%></td>
-			</tr>
-			<tr>
-			<td><br>Отчество</td><td><br><%=f.text_field(:last_name)%></td>
-			</tr>
-			<tr><td><br><%=f.button("Поиск")%></td></tr>
-	
-	<%end%>
-	</table>
 	
 	
 </body>

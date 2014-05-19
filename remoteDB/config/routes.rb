@@ -19,6 +19,10 @@ RemoteDB::Application.routes.draw do
 	post 'bd_control/' =>'home#bd_control'
 	get 'a_search/' =>'home#a_search'
 	post 'a_search/' =>'home#a_search'
+	get 'a_regist/' =>'home#a_regist'
+	post 'a_regist/' =>'home#a_regist'
+	get 'a_mn_regist/' =>'home#a_mn_regist'
+	post 'a_mn_regist/' =>'home#a_mn_regist'
 	
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
